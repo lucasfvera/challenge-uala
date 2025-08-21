@@ -1,3 +1,3 @@
 export default function TransactionsHome() {
-    return <div>Transactions Home</div>;
+    return <div className="w-full bg-[#fafafa]">Transactions Home</div>;
 }

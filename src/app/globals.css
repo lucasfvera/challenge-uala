@@ -1,4 +1,29 @@
 @import "tailwindcss";
 
 @theme {
+    --shadow-sidebar: 10px 0 31px rgba(231, 238, 255, 0.5);
+
+    --text-datepicker-md: 12px;
+    --text-datepicker-md--line-height: 18px;
+    --text-label-xs: 10px;
+    --text-label-sm: 12px;
+    --text-label-sm--line-height: 100%;
+    --text-label-md: 14px;
+    --text-label-md--line-height: 14px;
+    --text-body-md: 14px;
+    --text-body-md--line-height: 140%;
+    --text-body-lg: 16px;
+    --text-body-lg--line-height: 140%;
+    --text-title-md: 18px;
+    --text-title-md--line-height: 24px;
+    --text-title-lg: 22px;
+    --text-title-lg--line-height: 120%;
+    --text-number-lg: 34px;
+    --text-number-lg--line-height: 100%;
+    --text-number-md: 22px;
+    --text-number-md--line-height: 100%;
+    --text-button-lg: 16px;
+    --text-button-lg--line-height: 100%;
+    --text-button-sm: 10px;
+    --text-button-sm--line-height: 100%;
 }

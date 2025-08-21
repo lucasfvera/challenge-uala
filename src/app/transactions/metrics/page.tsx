@@ -1,3 +1,3 @@
 export default function TransactionsMetrics() {
-    return <div>Metrics</div>;
+    return <div className="w-full bg-[#fafafa]">Metrics</div>;
 }

@@ -18,8 +18,10 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
-            <body className={`${publicSans.variable} antialiased`}>
+        <html className="h-full" lang="en">
+            <body
+                className={`flex w-full ${publicSans.variable} antialiased h-full`}
+            >
                 {children}
             </body>
         </html>
