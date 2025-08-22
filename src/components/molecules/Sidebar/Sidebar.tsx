@@ -1,6 +1,7 @@
 "use client";
 
 import { BurgerMenuIcon } from "@/components/atoms/BurgerMenuIcon";
+import { IconButton } from "@/components/atoms/IconButton";
 import { SidebarContent } from "@/components/molecules/Sidebar/SidebarContent";
 import { SidebarFooter } from "@/components/molecules/Sidebar/SidebarFooter";
 import { SidebarHeader } from "@/components/molecules/Sidebar/SidebarHeader";
@@ -45,9 +46,7 @@ export const Sidebar = () => {
                     className="absolute right-0 -bottom-0 border-t-1 border-(--shadow-top-nav-bar-color) translate-y-full w-8 h-16 rounded-tr-4xl shadow-top-nav-bar-corner"
                     aria-hidden="true"
                 ></span>
-                <button onClick={openSidebar} className="p-3 cursor-pointer">
-                    <BurgerMenuIcon />
-                </button>
+                <IconButton icon={BurgerMenuIcon} onClick={openSidebar} />
                 <div className="flex-1 flex justify-center">
                     <Image src={UalaLogo} alt="" />
                 </div>
