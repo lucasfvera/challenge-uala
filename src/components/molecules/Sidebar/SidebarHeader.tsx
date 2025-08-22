@@ -2,7 +2,7 @@ import Image from "next/image";
 import UalaLogoImage from "@/assets/uala-isotipo-horizontal.svg";
 import Link from "next/link";
 import { PATHS } from "@/components/molecules/Sidebar/routes";
-import { CloseIcon } from "@/components/atoms/CloseIcon";
+import { CloseIcon } from "@/components/atoms/Icons/CloseIcon";
 import { IconButton } from "@/components/atoms/IconButton";
 
 interface SidebarHeaderProps {

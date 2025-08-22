@@ -1,5 +1,4 @@
-import { HomeIcon } from "@/components/atoms/HomeIcon";
-import Image from "next/image";
+import { HomeIcon } from "@/components/atoms/Icons/HomeIcon";
 
 export interface Route {
     path: string;

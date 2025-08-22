@@ -1,6 +1,6 @@
 "use client";
 
-import { BurgerMenuIcon } from "@/components/atoms/BurgerMenuIcon";
+import { BurgerMenuIcon } from "@/components/atoms/Icons/BurgerMenuIcon";
 import { IconButton } from "@/components/atoms/IconButton";
 import { SidebarContent } from "@/components/molecules/Sidebar/SidebarContent";
 import { SidebarFooter } from "@/components/molecules/Sidebar/SidebarFooter";
