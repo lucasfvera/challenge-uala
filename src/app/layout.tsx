@@ -20,7 +20,7 @@ export default function RootLayout({
     return (
         <html className="h-full" lang="en">
             <body
-                className={`flex w-full ${publicSans.variable} antialiased h-full`}
+                className={`w-full h-full ${publicSans.variable} antialiased`}
             >
                 {children}
             </body>

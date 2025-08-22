@@ -6,9 +6,11 @@ export default function TransactionsLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <>
+        <div className="flex flex-col md:flex-row h-full relative">
             <Sidebar />
-            {children}
-        </>
+            <div className="flex-1 w-full bg-[#fafafa] pt-(--top-navigation-height) md:pt-0">
+                {children}
+            </div>
+        </div>
     );
 }

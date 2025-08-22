@@ -1,7 +1,14 @@
 @import "tailwindcss";
 
 @theme {
+    --sidebar-width: 280px;
+    --top-navigation-height: 56px;
+
     --shadow-sidebar: 10px 0 31px rgba(231, 238, 255, 0.5);
+    --shadow-top-nav-bar-corner: 0 -2rem 0 0 var(--shadow-top-nav-bar-bg-color);
+    --shadow-top-nav-bar-bg-color: #fff;
+    --shadow-top-nav-bar-color: #dee2ec;
+    --shadow-top-nav-bar: 0 1px var(--shadow-top-nav-bar-color);
 
     --text-datepicker-md: 12px;
     --text-datepicker-md--line-height: 18px;

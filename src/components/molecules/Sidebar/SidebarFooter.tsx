@@ -8,10 +8,16 @@ export const SidebarFooter = () => (
         <p className="text-title-md font-semibold">Descargá la app desde</p>
         <div className="flex flex-col gap-4">
             <Link href="#">
-                <Image src={AppStoreButton} alt="" />
+                <Image
+                    src={AppStoreButton}
+                    alt="Link to download the app on the app store"
+                />
             </Link>
             <Link href="#">
-                <Image src={GooglePlayButton} alt="" />
+                <Image
+                    src={GooglePlayButton}
+                    alt="Link to download the app on google play store"
+                />
             </Link>
         </div>
     </div>
