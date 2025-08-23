@@ -15,7 +15,7 @@ export default async function TransactionsHome({
     // const asyncTransactions = tryCatch(getTransactions());
     const period = getValidPeriod((await searchParams).period || null, "week");
     return (
-        <div className="flex flex-col gap-6 h-full max-h-full overflow-hidden">
+        <div className="flex flex-col gap-6 h-full max-h-full overflow-hidden max-w-[440px] mx-auto">
             <Header>Tus cobros</Header>
             <div className="flex flex-col items-center gap-4 ">
                 <PaymentSummary period={period} />

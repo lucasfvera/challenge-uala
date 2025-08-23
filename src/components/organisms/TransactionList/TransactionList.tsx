@@ -1,4 +1,5 @@
 import { TransactionItem } from "@/components/molecules/TransactionItem/TransactionItem";
+import { TransactionListEmptyState } from "@/components/organisms/TransactionList/TransactionListEmptyState";
 import { Transaction } from "@/services/transactions/types";
 import { tryCatch } from "@/utils/tryCatch";
 import { Fragment, use } from "react";
@@ -15,14 +16,18 @@ export const TransactionList = ({
     return (
         <div className="overflow-y-auto">
             {data ? (
-                <div className="flex flex-col">
-                    {data.map((transaction) => (
-                        <Fragment key={transaction.id}>
-                            <TransactionItem transaction={transaction} />
-                            <div className="w-full border-b border-neutral-border last:hidden"></div>
-                        </Fragment>
-                    ))}
-                </div>
+                data.length < 0 ? (
+                    <div className="flex flex-col">
+                        {data.map((transaction) => (
+                            <Fragment key={transaction.id}>
+                                <TransactionItem transaction={transaction} />
+                                <div className="w-full border-b border-neutral-border last:hidden"></div>
+                            </Fragment>
+                        ))}
+                    </div>
+                ) : (
+                    <TransactionListEmptyState />
+                )
             ) : (
                 <div>{error.message}</div>
             )}

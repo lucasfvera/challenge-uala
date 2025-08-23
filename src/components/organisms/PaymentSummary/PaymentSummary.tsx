@@ -15,7 +15,7 @@ export const PaymentSummary = ({ period }: { period: Period }) => {
 
     return (
         <>
-            <div className="flex items-center">
+            <div className="flex items-center w-full justify-evenly">
                 <Tab param="day" isActive={period === "day"}>
                     Diario
                 </Tab>
