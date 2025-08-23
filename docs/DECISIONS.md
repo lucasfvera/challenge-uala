@@ -17,3 +17,4 @@ It works really well with headless libs like Shadcn. Also it's easy to do a mobi
 
 - Decorative images like logos or stylistic icons, do not need `alt` attribute.
 - Icons are treated as components to reuse them and change their colors easily. I preferred a simple approach like creating the icon manually but there are more sophisticated solutions like svgr library.
+- Tab Navigation in Transactions Page: We leverage Next.js cache mechanism to fetch the data and then filter it (calculate the total earnings).

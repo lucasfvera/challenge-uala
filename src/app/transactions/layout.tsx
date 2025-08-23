@@ -8,7 +8,7 @@ export default function TransactionsLayout({
     return (
         <div className="flex flex-col md:flex-row h-full relative">
             <Sidebar />
-            <div className="flex-1 w-full bg-[#fafafa] pt-(--top-navigation-height) md:pt-0">
+            <div className="flex-1 w-full h-full bg-[#fafafa] pt-(--top-navigation-height) md:pt-0 px-5 pb-8">
                 {children}
             </div>
         </div>

@@ -12,7 +12,12 @@ export const IconButton = ({
 }: IconButtonProps) => {
     return (
         // TODO: Replace class concat with cva
-        <button className={className + " cursor-pointer p-3"} {...props}>
+        <button
+            className={
+                className + " cursor-pointer p-3 rounded-4xl hover:bg-gray-100"
+            }
+            {...props}
+        >
             <Icon />
             {children}
         </button>
