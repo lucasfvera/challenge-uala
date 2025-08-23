@@ -34,10 +34,11 @@
     --text-button-sm: 10px;
     --text-button-sm--line-height: 100%;
 
-    --color-neutral-border: #dee2ec;
+    --color-neutral-border: var(--color-neutral-soft-gray);
 
     --color-primary-blue: #022a9a;
     --color-light-gray: #565656;
+    --color-neutral-soft-gray: #dee2ec;
     --color-neutral-gray: #606882;
     --color-neutral-hard-gray: #313643;
     --color-dark-green: #1c8367;

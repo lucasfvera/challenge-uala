@@ -1,6 +1,7 @@
 import { IconButton } from "@/components/atoms/IconButton";
 import { DownloadIcon } from "@/components/atoms/Icons/DownloadIcon";
 import { FilterIcon } from "@/components/atoms/Icons/FilterIcon";
+import { TransactionListSkeleton } from "@/components/atoms/LoadingSkeletons/TransactionListSkeleton";
 import { TransactionList } from "@/components/organisms/TransactionList/TransactionList";
 import { getTransactions } from "@/services/transactions/actions";
 import { tryCatch } from "@/utils/tryCatch";
@@ -18,7 +19,7 @@ export const TransactionHistory = () => {
                 <IconButton className="text-primary-blue" icon={FilterIcon} />
                 <IconButton className="text-primary-blue" icon={DownloadIcon} />
             </div>
-            <Suspense fallback={"Loading..."}>
+            <Suspense fallback={<TransactionListSkeleton />}>
                 <TransactionList asyncTransactions={asyncTransactions} />
             </Suspense>
         </div>

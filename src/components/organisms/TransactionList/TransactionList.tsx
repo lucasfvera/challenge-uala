@@ -1,3 +1,4 @@
+import { TransactionItemSkeleton } from "@/components/atoms/LoadingSkeletons/TransactionItemSkeleton";
 import { TransactionItem } from "@/components/molecules/TransactionItem/TransactionItem";
 import { TransactionListEmptyState } from "@/components/organisms/TransactionList/TransactionListEmptyState";
 import { Transaction } from "@/services/transactions/types";
@@ -16,7 +17,7 @@ export const TransactionList = ({
     return (
         <div className="overflow-y-auto">
             {data ? (
-                data.length < 0 ? (
+                data.length > 0 ? (
                     <div className="flex flex-col">
                         {data.map((transaction) => (
                             <Fragment key={transaction.id}>

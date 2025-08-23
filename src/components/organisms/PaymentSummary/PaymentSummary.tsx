@@ -1,3 +1,4 @@
+import { SummaryValueSkeleton } from "@/components/atoms/LoadingSkeletons/SummaryValueSkeleton";
 import { Tab } from "@/components/molecules/Tab/Tab";
 import { SummaryValue } from "@/components/organisms/PaymentSummary/SummaryValue";
 import { getTransactionsByPeriod } from "@/services/transactions/actions";
@@ -26,11 +27,8 @@ export const PaymentSummary = ({ period }: { period: Period }) => {
                     Mensual
                 </Tab>
             </div>
-            <Suspense fallback={"Loading value..."}>
-                <SummaryValue
-                    key={period}
-                    asyncTransactions={asyncTransactions}
-                />
+            <Suspense fallback={<SummaryValueSkeleton />}>
+                <SummaryValue asyncTransactions={asyncTransactions} />
             </Suspense>
         </>
     );
