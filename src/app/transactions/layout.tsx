@@ -1,4 +1,5 @@
 import { Sidebar } from "@/components/molecules/Sidebar/Sidebar";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function TransactionsLayout({
     children,
@@ -11,6 +12,7 @@ export default function TransactionsLayout({
             <div className="flex-1 w-full h-full bg-[#fafafa] pt-(--top-navigation-height) md:pt-0 px-5 pb-8">
                 {children}
             </div>
+            <Toaster position="bottom-right" />
         </div>
     );
 }

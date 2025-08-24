@@ -3,6 +3,7 @@
 import type { Transaction } from "@/services/transactions/types";
 import { URL_SERVICE_TRANSACTIONS } from "@/utils/envVars";
 import type { Period } from "@/services/transactions/validation";
+import { addDays, format, isWithinInterval } from "date-fns";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -73,6 +74,37 @@ export const getTransactionsByPeriod = async (period: Period) => {
         // return { page: transactionsPage, totalPages, currentPage };
     } catch {
         throw new Error("Fetching the transactions failed");
+    }
+};
+
+export const getTransactionsByDateRange = async (
+    fromDate: Date,
+    toDate?: Date
+) => {
+    try {
+        const res = await fetch(URL_SERVICE_TRANSACTIONS, {
+            cache: "force-cache",
+            next: {
+                revalidate: 3600,
+            },
+        });
+        const { transactions } = (await res.json()) as {
+            transactions: Transaction[];
+        };
+
+        // Filter transactions based on period
+        const filteredTransactions = transactions.filter((transaction) => {
+            const transactionDate = new Date(transaction.createdAt);
+            if (!toDate)
+                return format(transactionDate, "P") === format(fromDate, "P");
+            return isWithinInterval(transactionDate, {
+                start: fromDate,
+                end: toDate,
+            });
+        });
+        return filteredTransactions;
+    } catch {
+        throw new Error("Fetching the transactions by date range failed");
     }
 };
 
