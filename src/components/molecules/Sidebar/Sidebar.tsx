@@ -34,7 +34,7 @@ export const Sidebar = () => {
         if (isOpen) {
             closeSidebar();
         }
-    }, [path, isOpen]);
+    }, [path]);
 
     const closeSidebar = () => setIsOpen(false);
     const openSidebar = () => setIsOpen(true);

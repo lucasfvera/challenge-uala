@@ -14,7 +14,6 @@ export const TransactionList = ({
 }: TransactionListProps) => {
     const { data, error } = use(asyncTransactions);
 
-    console.log(data);
     return (
         <div className="overflow-y-auto">
             {data ? (

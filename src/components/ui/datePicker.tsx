@@ -15,7 +15,7 @@ import { CalendarIcon } from "@/components/atoms/Icons/CalendarIcon";
 import { getTransactionsByDateRange } from "@/services/transactions/actions";
 import { toast } from "sonner";
 
-export function DatePickerDemo() {
+export function DatePicker() {
     const [isOpen, setIsOpen] = React.useState(false);
     const [dateRange, setDateRange] = React.useState<
         { from: Date; to?: Date } | undefined
@@ -30,12 +30,10 @@ export function DatePickerDemo() {
     const downloadHandler = () => {
         if (!dateRange) return;
         startTransition(async () => {
-            console.log(dateRange);
             const transactions = await getTransactionsByDateRange(
                 dateRange.from,
                 dateRange?.to
             );
-            console.log(transactions);
             if (transactions.length === 0)
                 toast(
                     "No hay movimientos en las fechas seleccionadas para descargar"

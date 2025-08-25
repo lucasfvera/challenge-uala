@@ -13,7 +13,8 @@ export default async function TransactionsHome({
     // const pageParam = (await searchParams).page ?? "";
     // const page = isNaN(parseInt(pageParam)) ? 1 : parseInt(pageParam);
     // const asyncTransactions = tryCatch(getTransactions());
-    const period = getValidPeriod((await searchParams).period || null, "week");
+    const resolvedParams = await searchParams;
+    const period = getValidPeriod(resolvedParams.period || null, "week");
     return (
         <div className="flex flex-col gap-6 h-full max-h-full overflow-hidden max-w-[440px] mx-auto">
             <Header>Tus cobros</Header>
@@ -23,7 +24,7 @@ export default async function TransactionsHome({
                     <AnalyzeIcon /> Ver métricas
                 </button>
             </div>
-            <TransactionHistory />
+            <TransactionHistory searchParams={resolvedParams} />
         </div>
     );
 }

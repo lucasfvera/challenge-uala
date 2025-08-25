@@ -7,11 +7,11 @@ import { format, isWithinInterval } from "date-fns";
 
 const ITEMS_PER_PAGE = 10;
 
-interface FiltersType {
-    date?: { from: Date; to: Date };
+export interface FiltersType {
+    date?: { from?: Date; to?: Date };
     card?: Pick<Transaction, "card">["card"];
     installments?: Pick<Transaction, "installments">["installments"];
-    amount?: { from: number; to: number };
+    amount?: { from?: number; to?: number };
     paymentMethod?: Pick<Transaction, "paymentMethod">["paymentMethod"];
 }
 
