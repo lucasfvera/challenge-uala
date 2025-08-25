@@ -3,6 +3,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Switch } from "@/components/ui/switch";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
+import { DateRange } from "react-day-picker";
 
 export const DateFilter = () => {
     const { activeFilters, switchHandler, rangeFilterHandler } =
@@ -15,13 +16,9 @@ export const DateFilter = () => {
         ? new Date(activeFilters.date.value.to)
         : undefined;
 
-    const handleSelect = (dateRange: any) => {
+    const handleSelect = (dateRange: DateRange | undefined) => {
         const rangeFrom = dateRange?.from ? format(dateRange.from, "P") : "";
         const rangeTo = dateRange?.to ? format(dateRange.to, "P") : "";
-        console.log(dateRange?.from);
-        console.log(dateRange?.to);
-        console.log(rangeFrom);
-        console.log(rangeTo);
         rangeFilterHandler("date")({
             from: rangeFrom || "",
             to: rangeTo || "",

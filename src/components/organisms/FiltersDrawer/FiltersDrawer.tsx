@@ -71,12 +71,12 @@ export function FiltersDrawer() {
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        let jsonParams = {};
+        const jsonParams = {};
         for (const [key, value] of searchParams) {
             jsonParams[key] = value;
         }
         const filters = buildFiltersFromQueryParams(jsonParams);
-        let activeFilters: ActiveFilterState = {};
+        const activeFilters: ActiveFilterState = {};
         for (const key in filters) {
             activeFilters[key] = {
                 isActive: true,

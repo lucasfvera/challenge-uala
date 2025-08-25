@@ -50,7 +50,7 @@ const filterByDateRange =
         );
 
 const filtersFunctions = (filters: FiltersType) => {
-    let activeFilters: ActiveFilters = {};
+    const activeFilters: ActiveFilters = {};
     if (filters["card"]) activeFilters.card = filterByCard(filters["card"]);
     if (filters["installments"])
         activeFilters.installments = filterByInstallments(
