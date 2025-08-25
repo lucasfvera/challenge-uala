@@ -3,11 +3,80 @@
 import type { Transaction } from "@/services/transactions/types";
 import { URL_SERVICE_TRANSACTIONS } from "@/utils/envVars";
 import type { Period } from "@/services/transactions/validation";
-import { addDays, format, isWithinInterval } from "date-fns";
+import { format, isWithinInterval } from "date-fns";
 
 const ITEMS_PER_PAGE = 10;
 
-export const getTransactions = async (page = 1) => {
+interface FiltersType {
+    date?: { from: Date; to: Date };
+    card?: Pick<Transaction, "card">["card"];
+    installments?: Pick<Transaction, "installments">["installments"];
+    amount?: { from: number; to: number };
+    paymentMethod?: Pick<Transaction, "paymentMethod">["paymentMethod"];
+}
+
+type ActiveFilters = {
+    [Prop in keyof FiltersType]: (ts: Transaction[]) => Transaction[];
+};
+
+// By Value
+const filterByCard =
+    (card: Pick<Transaction, "card">["card"]) => (ts: Transaction[]) =>
+        ts.filter((t) => t.card === card);
+
+const filterByInstallments =
+    (installment: Pick<Transaction, "installments">["installments"]) =>
+    (ts: Transaction[]) =>
+        ts.filter((t) => t.installments === installment);
+
+const filterByPaymentMethod =
+    (paymentMethod: Pick<Transaction, "paymentMethod">["paymentMethod"]) =>
+    (ts: Transaction[]) =>
+        ts.filter((t) => t.paymentMethod === paymentMethod);
+
+// By Range
+const filterByAmount =
+    (amount: {
+        from: Pick<Transaction, "amount">["amount"];
+        to: Pick<Transaction, "amount">["amount"];
+    }) =>
+    (ts: Transaction[]) =>
+        ts.filter((t) => t.amount >= amount.from && t.amount <= amount.to);
+
+const filterByDateRange =
+    (date: { from: Date; to: Date }) => (ts: Transaction[]) =>
+        ts.filter((t) =>
+            isWithinInterval(t.createdAt, { start: date.from, end: date.to })
+        );
+
+const filtersFunctions = (filters: FiltersType) => {
+    let activeFilters: ActiveFilters = {};
+    if (filters["card"]) activeFilters.card = filterByCard(filters["card"]);
+    if (filters["installments"])
+        activeFilters.installments = filterByInstallments(
+            filters["installments"]
+        );
+    if (filters["paymentMethod"])
+        activeFilters.paymentMethod = filterByPaymentMethod(
+            filters["paymentMethod"]
+        );
+    if (filters["amount"])
+        activeFilters.amount = filterByAmount(filters["amount"]);
+    if (filters["date"])
+        activeFilters.date = filterByDateRange(filters["date"]);
+
+    return activeFilters;
+};
+
+export const getTransactions = async ({
+    page = 1,
+    filters = {},
+}: {
+    page?: number;
+    filters?: FiltersType;
+}) => {
+    const filterFunctions = filtersFunctions(filters);
+    const activeFilters = Object.keys(filters);
     try {
         const res = await fetch(URL_SERVICE_TRANSACTIONS, {
             cache: "force-cache",
@@ -18,7 +87,17 @@ export const getTransactions = async (page = 1) => {
         const { transactions } = (await res.json()) as {
             transactions: Transaction[];
         };
-        return transactions;
+        const filteredTransactions = activeFilters.reduce(
+            (acc, filterType) =>
+                filterFunctions[filterType as keyof typeof filterFunctions]
+                    ? filterFunctions[
+                          filterType as keyof typeof filterFunctions
+                      ]!(acc)
+                    : acc,
+            transactions
+        );
+
+        return filteredTransactions;
         // TODO: Implement manual pagination
         // if (page < 1 || isNaN(page)) page = 1;
         // const fromIndex = (page - 1) * ITEMS_PER_PAGE;
