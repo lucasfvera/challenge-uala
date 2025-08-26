@@ -9,7 +9,7 @@ type Failure<E> = {
     error: E;
 };
 
-type Result<T, E = Error> = Success<T> | Failure<E>;
+export type Result<T, E = Error> = Success<T> | Failure<E>;
 
 /**
  * Method to allow returning a typed error if a Promise fails.

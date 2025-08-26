@@ -40,7 +40,10 @@ export const Tab = ({ children, isActive, param }: TabProps) => {
         >
             {children}
             {isActive && (
-                <span className="block w-2 h-2 rounded-2xl bg-primary-blue mt-3 mx-auto"></span>
+                <span
+                    data-testid="active-tab-point-mark"
+                    className="block w-2 h-2 rounded-2xl bg-primary-blue mt-3 mx-auto"
+                ></span>
             )}
         </button>
     );
