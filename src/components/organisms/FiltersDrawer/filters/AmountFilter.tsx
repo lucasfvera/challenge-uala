@@ -1,3 +1,4 @@
+import { CommissionIcon } from "@/components/atoms/Icons/CommissionIcon";
 import { useFilterContext } from "@/components/organisms/FiltersDrawer/filterContext";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
@@ -14,11 +15,33 @@ export const AmountFilter = () => {
 
     return (
         <div className="flex flex-col">
-            <div className="flex items-center justify-between">
-                <label htmlFor="amount-filter-toggle">Monto</label>
+            <div className="flex items-center justify-between py-3 px-2">
+                <div className="flex gap-2 items-center text-neutral-gray">
+                    <CommissionIcon />
+                    <label
+                        className={
+                            "text-label-md font-bold text-neutral-hard-gray"
+                        }
+                        htmlFor="amount-filter-toggle"
+                    >
+                        Monto
+                    </label>
+                </div>
                 <Switch
                     checked={activeFilters.amount.isActive}
-                    onCheckedChange={switchHandler("amount")}
+                    onCheckedChange={(val) => {
+                        switchHandler("amount")(val);
+                        // Quick fix for initial/default state when no values where selected
+                        if (
+                            (val && !activeFilters.amount.value.from) ||
+                            !activeFilters.amount.value.to
+                        ) {
+                            rangeFilterHandler("amount")({
+                                from: startValue.toString(),
+                                to: endValue.toString(),
+                            });
+                        }
+                    }}
                     name="amount"
                     id="amount-filter-toggle"
                 />
@@ -46,7 +69,10 @@ export const AmountFilter = () => {
                                 <Input
                                     type="number"
                                     className="h-[38px] w-[100px] z-10 pb-0"
-                                    value={activeFilters.amount.value.from}
+                                    value={
+                                        activeFilters.amount.value.from ||
+                                        startValue
+                                    }
                                     onChange={(e) =>
                                         rangeFilterHandler("amount")({
                                             from: e.target.value,
@@ -62,7 +88,10 @@ export const AmountFilter = () => {
                                 <Input
                                     type="number"
                                     className="h-[38px] w-[100px] z-10 pb-0"
-                                    value={activeFilters.amount.value.to}
+                                    value={
+                                        activeFilters.amount.value.to ||
+                                        endValue
+                                    }
                                     onChange={(e) =>
                                         rangeFilterHandler("amount")({
                                             from: activeFilters.amount.value

@@ -23,6 +23,7 @@ import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { buildFiltersFromQueryParams } from "@/components/organisms/FiltersDrawer/buildFilters";
 import { FiltersType } from "@/services/transactions/actions";
+import { LeftIcon } from "@/components/atoms/Icons/LeftIcon";
 
 export type RangeFilters = "date" | "amount";
 export type ValueFilters = "card" | "installments" | "paymentMethod";
@@ -75,6 +76,9 @@ export function FiltersDrawer() {
     const [activeFilters, setActiveFilters] =
         useState<ActiveFilterState>(INITIAL_STATE);
     const [open, setOpen] = useState(false);
+    const hasFilterApplied = Object.keys(activeFilters).some(
+        (key) => activeFilters[key as keyof typeof activeFilters].isActive
+    );
 
     useEffect(() => {
         const jsonParams = {};
@@ -120,18 +124,38 @@ export function FiltersDrawer() {
                     value: { from: value.from, to: value.to },
                 },
             }));
-    const clearFilters = () => setActiveFilters(INITIAL_STATE);
+    const clearFilters = () => {
+        setActiveFilters(INITIAL_STATE);
+        const params = new URLSearchParams(searchParams);
+
+        for (const key in activeFilters) {
+            const typedKey = key as keyof typeof activeFilters;
+            if (typedKey === "date" || typedKey === "amount") {
+                params.delete(`${typedKey}From`);
+                params.delete(`${typedKey}To`);
+            } else {
+                params.delete(typedKey);
+            }
+        }
+        router.replace(`?${params.toString()}`, { scroll: false });
+    };
 
     const handleApplyFilters = () => {
         const params = new URLSearchParams(searchParams);
         for (const key in activeFilters) {
             const typedKey = key as keyof typeof activeFilters;
             if (activeFilters[typedKey].isActive) {
-                if (typeof activeFilters[typedKey].value === "string") {
-                    params.set(key, activeFilters[typedKey].value);
+                const filterValue = activeFilters[typedKey].value;
+                if (typeof filterValue === "string") {
+                    // Quick fix for submitting "all" filter
+                    if (!filterValue) {
+                        params.delete(key);
+                        continue;
+                    }
+                    params.set(key, filterValue);
                 } else {
-                    const from = activeFilters[typedKey].value.from;
-                    const to = activeFilters[typedKey].value.to;
+                    const from = filterValue.from;
+                    const to = filterValue.to;
                     from && params.set(`${key}From`, from);
                     to && params.set(`${key}To`, to);
                 }
@@ -144,7 +168,7 @@ export function FiltersDrawer() {
                 }
             }
         }
-        // Reset page when changing period
+        // TODO: Reset page when changing period
         // params.delete("page");
         router.replace(`?${params.toString()}`, { scroll: false });
     };
@@ -167,13 +191,35 @@ export function FiltersDrawer() {
                     />
                 </DrawerTrigger>
                 <DrawerContent className="p-12 pb-0">
-                    <DrawerHeader className="text-left">
-                        <DrawerTitle>Filtros</DrawerTitle>
+                    <DrawerHeader className="text-left p-0">
+                        <DrawerTitle className="text-primary-blue p-0">
+                            <Button
+                                variant="link"
+                                onClick={() => setOpen(false)}
+                                className="w-max p-0"
+                            >
+                                <LeftIcon />
+                                <p className="shrink-1 text-body-lg font-semibold text-neutral-light-gray">
+                                    Filtros
+                                </p>
+                            </Button>
+                            {/* <LeftIcon />
+                            <p className="text-body-lg font-semibold text-neutral-light-gray">
+                                Filtros
+                            </p> */}
+                        </DrawerTitle>
                     </DrawerHeader>
-                    <div>
-                        <div className="flex justify-between">
-                            <p>Todos los filtros</p>
-                            <Button onClick={clearFilters} variant={"link"}>
+                    <div className="flex flex-col gap-2">
+                        <div className="flex justify-between py-3.5">
+                            <p className="text-body-lg font-semibold">
+                                Todos los filtros
+                            </p>
+                            <Button
+                                className="text-button-lg text-primary-blue"
+                                onClick={clearFilters}
+                                variant={"link"}
+                                disabled={!hasFilterApplied}
+                            >
                                 Limpiar
                             </Button>
                         </div>
@@ -188,7 +234,11 @@ export function FiltersDrawer() {
                     </div>
                     <DrawerFooter>
                         <DrawerClose asChild>
-                            <Button onClick={handleApplyFilters}>
+                            <Button
+                                onClick={handleApplyFilters}
+                                disabled={!hasFilterApplied}
+                                size={"lg"}
+                            >
                                 Aplicar filtros
                             </Button>
                         </DrawerClose>

@@ -1,3 +1,4 @@
+import { CalendarRowIcon } from "@/components/atoms/Icons/CalendarRowIcon";
 import { useFilterContext } from "@/components/organisms/FiltersDrawer/filterContext";
 import { Calendar } from "@/components/ui/calendar";
 import { Switch } from "@/components/ui/switch";
@@ -27,8 +28,18 @@ export const DateFilter = () => {
 
     return (
         <div className="flex flex-col">
-            <div className="flex items-center justify-between">
-                <label htmlFor="date-filter-toggle">Fecha</label>
+            <div className="flex items-center justify-between py-3 px-2">
+                <div className="flex gap-2 items-center text-neutral-gray">
+                    <CalendarRowIcon />
+                    <label
+                        className={
+                            "text-label-md font-bold text-neutral-hard-gray"
+                        }
+                        htmlFor="date-filter-toggle"
+                    >
+                        Fecha
+                    </label>
+                </div>
                 <Switch
                     checked={activeFilters.date.isActive}
                     onCheckedChange={switchHandler("date")}

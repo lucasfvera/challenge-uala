@@ -42,9 +42,12 @@
     --color-neutral-border: var(--color-neutral-soft-gray);
 
     --color-primary-blue: #022a9a;
+    --color-primary-blue-lighter: #e0edff;
     --color-light-gray: #565656;
     --color-neutral-soft-gray: #dee2ec;
+    --color-neutral-light-gray: #3a3a3a;
     --color-neutral-gray: #606882;
+    --color-neutral-middle-gray: #b7bfd3;
     --color-neutral-hard-gray: #313643;
     --color-dark-green: #1c8367;
 }
