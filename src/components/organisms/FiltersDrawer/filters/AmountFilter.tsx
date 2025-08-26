@@ -7,9 +7,9 @@ export const AmountFilter = () => {
     const { activeFilters, switchHandler, rangeFilterHandler } =
         useFilterContext();
 
-    const startValueRaw = parseInt(activeFilters.amount.value.from);
+    const startValueRaw = parseInt(activeFilters.amount.value.from || "0");
     const startValue = !isNaN(startValueRaw) ? startValueRaw : 0;
-    const endValueRaw = parseInt(activeFilters.amount.value.to);
+    const endValueRaw = parseInt(activeFilters.amount.value.to || "1000");
     const endValue = !isNaN(endValueRaw) ? endValueRaw : 1000;
 
     return (

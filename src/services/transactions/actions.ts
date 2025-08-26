@@ -3,7 +3,7 @@
 import type { Transaction } from "@/services/transactions/types";
 import { URL_SERVICE_TRANSACTIONS } from "@/utils/envVars";
 import type { Period } from "@/services/transactions/validation";
-import { format, isWithinInterval } from "date-fns";
+import { format, isFuture, isWithinInterval } from "date-fns";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -37,17 +37,40 @@ const filterByPaymentMethod =
 // By Range
 const filterByAmount =
     (amount: {
-        from: Pick<Transaction, "amount">["amount"];
-        to: Pick<Transaction, "amount">["amount"];
+        from?: Pick<Transaction, "amount">["amount"];
+        to?: Pick<Transaction, "amount">["amount"];
     }) =>
     (ts: Transaction[]) =>
-        ts.filter((t) => t.amount >= amount.from && t.amount <= amount.to);
+        ts.filter((t) => {
+            if (amount.from !== undefined && amount.to !== undefined) {
+                return t.amount >= amount.from && t.amount <= amount.to;
+            } else if (amount.from !== undefined) {
+                return t.amount >= amount.from;
+            } else if (amount.to !== undefined) {
+                return t.amount <= amount.to;
+            }
+        });
 
 const filterByDateRange =
-    (date: { from: Date; to: Date }) => (ts: Transaction[]) =>
-        ts.filter((t) =>
-            isWithinInterval(t.createdAt, { start: date.from, end: date.to })
-        );
+    (date: { from?: Date; to?: Date }) => (ts: Transaction[]) =>
+        ts.filter((t) => {
+            if (date.from && date.to) {
+                return isWithinInterval(t.createdAt, {
+                    start: date.from,
+                    end: date.to,
+                });
+            } else if (date.from) {
+                return isWithinInterval(t.createdAt, {
+                    start: date.from,
+                    end: t.createdAt,
+                });
+            } else if (date.to) {
+                return isWithinInterval(t.createdAt, {
+                    start: t.createdAt,
+                    end: date.to,
+                });
+            }
+        });
 
 const filtersFunctions = (filters: FiltersType) => {
     const activeFilters: ActiveFilters = {};

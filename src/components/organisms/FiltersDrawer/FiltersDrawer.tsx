@@ -22,16 +22,22 @@ import { DateFilter } from "@/components/organisms/FiltersDrawer/filters/DateFil
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { buildFiltersFromQueryParams } from "@/components/organisms/FiltersDrawer/buildFilters";
+import { FiltersType } from "@/services/transactions/actions";
 
 export type RangeFilters = "date" | "amount";
 export type ValueFilters = "card" | "installments" | "paymentMethod";
 type Filters = RangeFilters | ValueFilters;
 
 export type ActiveFilterState = {
-    [key in Filters]: {
-        isActive: boolean;
-        value: string | { from?: string; to?: string };
-    };
+    [K in Filters]: K extends RangeFilters
+        ? {
+              isActive: boolean;
+              value: { from?: string; to?: string };
+          }
+        : {
+              isActive: boolean;
+              value: string;
+          };
 };
 
 const INITIAL_STATE = {
@@ -53,8 +59,8 @@ const INITIAL_STATE = {
     amount: {
         isActive: false,
         value: {
-            from: "",
-            to: "",
+            from: undefined,
+            to: undefined,
         },
     },
     paymentMethod: {
@@ -73,14 +79,16 @@ export function FiltersDrawer() {
     useEffect(() => {
         const jsonParams = {};
         for (const [key, value] of searchParams) {
+            // @ts-expect-error False positive since we are adding an attribute to an empty object
             jsonParams[key] = value;
         }
         const filters = buildFiltersFromQueryParams(jsonParams);
-        const activeFilters: ActiveFilterState = {};
+        const activeFilters: Partial<ActiveFilterState> = {};
         for (const key in filters) {
-            activeFilters[key] = {
+            activeFilters[key as keyof ActiveFilterState] = {
                 isActive: true,
-                value: filters[key],
+                //@ts-expect-error We know that the value from filters fits the type since we built it manually from the builder fn
+                value: filters[key as keyof FiltersType],
             };
         }
         setActiveFilters((prev) => ({ ...prev, ...activeFilters }));
@@ -104,7 +112,7 @@ export function FiltersDrawer() {
             },
         }));
     const rangeFilterHandler =
-        (target: RangeFilters) => (value: { from: string; to: string }) =>
+        (target: RangeFilters) => (value: { from?: string; to?: string }) =>
             setActiveFilters((prev) => ({
                 ...prev,
                 [target]: {

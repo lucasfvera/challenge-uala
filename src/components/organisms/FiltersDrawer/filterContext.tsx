@@ -12,7 +12,7 @@ export const FilterContext = createContext<{
     valueFilterHandler: (target: ValueFilters) => (value: string) => void;
     rangeFilterHandler: (
         target: RangeFilters
-    ) => (value: { from: string; to: string }) => void;
+    ) => (value: { from?: string; to?: string }) => void;
 } | null>(null);
 
 export const useFilterContext = () => {
