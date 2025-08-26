@@ -3,6 +3,7 @@ import { AnalyzeIcon } from "@/components/atoms/Icons/AnalyzeIcon";
 import { PaymentSummary } from "@/components/organisms/PaymentSummary/PaymentSummary";
 import { TransactionHistory } from "@/components/organisms/TransactionHistory/TransactionHistory";
 import { getValidPeriod } from "@/services/transactions/validation";
+import Link from "next/link";
 
 export default async function TransactionsHome({
     searchParams,
@@ -20,9 +21,12 @@ export default async function TransactionsHome({
             <Header>Tus cobros</Header>
             <div className="flex flex-col items-center gap-4 ">
                 <PaymentSummary period={period} />
-                <button className="flex gap-1 px-4 py-3 text-primary-blue">
+                <Link
+                    href={"/transactions/metrics"}
+                    className="flex gap-1 px-4 py-3 text-primary-blue"
+                >
                     <AnalyzeIcon /> Ver métricas
-                </button>
+                </Link>
             </div>
             <TransactionHistory searchParams={resolvedParams} />
         </div>
